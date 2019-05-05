@@ -11,47 +11,89 @@ float delta=0.2;
 static GLfloat theta[] = {0.0,0.0,0.0};
 // eje es el ?ngulo a rotar
 static GLint eje = 2;
+//inicializamos el valor de L
+int L = 30;
+//declaramos los metodos de la circunferencia y semicircunferencias
+void circunferencia_punto_medio(float,float,int);
+void semi_circunferencia_punto_medio_1(float,float,int);
+void semi_circunferencia_punto_medio_2(float,float,int);
+void semi_circunferencia_punto_medio_3(float,float,int);
+void semi_circunferencia_punto_medio_4(float,float,int);
+void lienzo(void);
+
 // construya su poligono base
 
 // dibujamos nuestra escena
 //
 void ejes(void)
 {
+    //hacemos rotaciones de los ejes X y Y para poder visualizar el eje Z
     glRotatef(45.0,1.0,0.0,0.0);
     glRotatef(-45.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
+
+    //eje x
     glColor3f(1,0,0);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
-    glVertex3f(3,0,0);
+    glVertex3f(60,0,0);
     glEnd();
+
+    //eje y
     glColor3f(1,1,0);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
-    glVertex3f(0,3,0);
+    glVertex3f(0,60,0);
     glEnd();
+
+    //eje z
     glColor3f(0,0,1);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
-    glVertex3f(0,0,3);
+    glVertex3f(0,0,60);
     glEnd();
 }
 
 void cara()
 {
-    glPointSize(5.0);
+    glPointSize(2.0);
     glBegin(GL_POLYGON);
+    glColor3f(0.301,0.745,0.843);
     glVertex3f(0.0,0.0,0.0);
-    glVertex3f(2.0,0.0,0.0);
-    glVertex3f(2.0,0.0,2.0);
-    glVertex3f(0.0,0.0,2.0);
+    glVertex3f(L,0.0,0.0);
+    glVertex3f(L,L,0.0);
+    glVertex3f(0.0,L,0.0);
     glEnd();
+    lienzo();
 
 }
 // construya su objeto geométrico mediante cubo()
 void cubo(void)
 {
     cara();
+    glRotatef(90.0,1.0,0.0,0.0);
+    glRotatef(0.0,0.0,1.0,0.0);
+    glRotatef(0.0,0.0,0.0,1.0);
+    cara();
+    glRotatef(0.0,1.0,0.0,0.0);
+    glRotatef(90.0,0.0,1.0,0.0);
+    glRotatef(0.0,0.0,0.0,1.0);
+    cara();
+    glTranslatef(0.0,0.0,L);
+    cara();
+    glTranslatef(0.0,L,0.0);
+    glRotatef(-90.0,1.0,0.0,0.0);
+    glRotatef(0.0,0.0,1.0,0.0);
+    glRotatef(0.0,0.0,0.0,1.0);
+    cara();
+    glTranslatef(L,0.0,0.0);
+    glRotatef(0.0,1.0,0.0,0.0);
+    glRotatef(90.0,0.0,1.0,0.0);
+    glRotatef(0.0,0.0,0.0,1.0);
+    cara();
+
+
+
 // ... escriba su código
 }
 //
@@ -67,7 +109,7 @@ void display(void)
     glRotatef(theta[0],1.0,0.0,0.0);
     glRotatef(theta[1],0.0,1.0,0.0);
     glRotatef(theta[2],0.0,0.0,1.0);
-    glColor3f(1,1,1);
+
     cubo();
 
     glPopMatrix();
@@ -111,6 +153,158 @@ void teclado(unsigned char tecla,int x,int y)
         break;
     }
 }
+
+void circunferencia_punto_medio(float xc,float yc,int R)
+{
+// discretizacion valida en el II octante
+    R=R*(sqrt(2)-1)/2;
+    int x=0;
+    int y=R,d=1-R;
+    glBegin(GL_POINTS);
+    glColor3f(1,0.0,0.0);
+    glVertex2f(x,y);
+    while (x<y)
+    {
+        if (d<0)
+        {
+            d=d+2*x+3;
+        }
+        else
+        {
+            d=d+2*(x-y)+5;
+            y=y-1;
+        }
+        x++;
+        glVertex2f(x+xc,y+yc);
+        glVertex2f(x+xc,-y+yc);
+        glVertex2f(-x+xc,y+yc);
+        glVertex2f(-x+xc,-y+yc);
+        glVertex2f(y+xc,x+yc);
+        glVertex2f(y+xc,-x+yc);
+        glVertex2f(-y+xc,x+yc);
+        glVertex2f(-y+xc,-x+yc);
+
+    }
+    glEnd();
+}
+
+void semi_circunferencia_punto_medio_1(float xc,float yc,int R)
+{
+// discretizacion valida en el II octante
+
+    int x=0;
+    int y=R,d=1-R;
+    glBegin(GL_POINTS);
+    glColor3f(1,0.0,0.0);
+    while (x<y)
+    {
+        if (d<0)
+        {
+            d=d+2*x+3;
+        }
+        else
+        {
+            d=d+2*(x-y)+5;
+            y=y-1;
+        }
+        x++;
+        glVertex2f(-x+xc,-y+yc);
+        glVertex2f(-y+xc,-x+yc);
+
+    }
+    glEnd();
+}
+
+void semi_circunferencia_punto_medio_2(float xc,float yc,int R)
+{
+// discretizacion valida en el II octante
+    int x=0;
+    int y=R,d=1-R;
+    glBegin(GL_POINTS);
+    glColor3f(1,0.0,0.0);
+    while (x<y)
+    {
+        if (d<0)
+        {
+            d=d+2*x+3;
+        }
+        else
+        {
+            d=d+2*(x-y)+5;
+            y=y-1;
+        }
+        x++;
+        glVertex2f(x+xc,y+yc);
+        glVertex2f(y+xc,x+yc);
+    }
+    glEnd();
+}
+
+void semi_circunferencia_punto_medio_3(float xc,float yc,int R)
+{
+// discretizacion valida en el II octante
+
+    int x=0;
+    int y=R,d=1-R;
+    glBegin(GL_POINTS);
+    glColor3f(1,0.0,0.0);
+    while (x<y)
+    {
+        if (d<0)
+        {
+            d=d+2*x+3;
+        }
+        else
+        {
+            d=d+2*(x-y)+5;
+            y=y-1;
+        }
+        x++;
+        glVertex2f(x+xc,-y+yc);
+        glVertex2f(y+xc,-x+yc);
+
+    }
+    glEnd();
+}
+
+void semi_circunferencia_punto_medio_4(float xc,float yc,int R)
+{
+// discretizacion valida en el II octante
+
+    int x=0;
+    int y=R,d=1-R;
+    glBegin(GL_POINTS);
+    glColor3f(1,0.0,0.0);
+    while (x<y)
+    {
+        if (d<0)
+        {
+            d=d+2*x+3;
+        }
+        else
+        {
+            d=d+2*(x-y)+5;
+            y=y-1;
+        }
+        x++;
+        glVertex2f(-x+xc,y+yc);
+        glVertex2f(-y+xc,x+yc);
+
+    }
+    glEnd();
+}
+
+void lienzo()
+{
+    circunferencia_punto_medio(L/2,L/2,L);
+    semi_circunferencia_punto_medio_1(L,L,L/2);
+    semi_circunferencia_punto_medio_1(L/2,L/2,L/2);
+    semi_circunferencia_punto_medio_2(0,0,L/2);
+    semi_circunferencia_punto_medio_2(L/2,L/2,L/2);
+    semi_circunferencia_punto_medio_3(0,L,L/2);
+    semi_circunferencia_punto_medio_4(L,0,L/2);
+}
+
 // control de ventana (recuerde el volumen de visualizaci?n)
 // modifique dicho volumen seg?n su conveniencia
 void myReshape(int w, int h)
@@ -119,18 +313,18 @@ void myReshape(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     if(w <=h)
-        glOrtho(-2.0,2.0,-2.0*(GLfloat)h/(GLfloat)w,
-                2.0*(GLfloat)h/(GLfloat)w, -10.0, 10.0);
+        glOrtho(-45.0,40.0,-45.0*(GLfloat)h/(GLfloat)w,
+                45.0*(GLfloat)h/(GLfloat)w, -45.0, 45.0);
     else
-        glOrtho(-2.0*(GLfloat)w/(GLfloat)h,
-                2.0*(GLfloat)w/(GLfloat)h, -2.0,2.0,-10.0,10.0);
+        glOrtho(-45.0*(GLfloat)w/(GLfloat)h,
+                45.0*(GLfloat)w/(GLfloat)h, -45.0,45.0,-45.0,45.0);
     glMatrixMode(GL_MODELVIEW);
 }
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(500,500);
+    glutInitWindowSize(600,600);
     glutCreateWindow("mi objeto bajo rotaciones");
     glutReshapeFunc(myReshape);
 // invocamos a display() para dibujar nuestra escena

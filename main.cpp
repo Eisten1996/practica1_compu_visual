@@ -54,6 +54,7 @@ void ejes(void)
     glEnd();
 }
 
+//creamos la cara del cubo en los ejes X y Y
 void cara()
 {
     glPointSize(2.0);
@@ -67,45 +68,52 @@ void cara()
     lienzo();
 
 }
-// construya su objeto geométrico mediante cubo()
+// construimos un cubo compuesto por todas las caras
 void cubo(void)
 {
+    //mostramos la primera cara en
     cara();
+
+    //rotamos en el eje X
     glRotatef(90.0,1.0,0.0,0.0);
     glRotatef(0.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
     cara();
+
+    //rotamos en el eje Y
     glRotatef(0.0,1.0,0.0,0.0);
     glRotatef(90.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
     cara();
+
+    //hacemos una traslacion en el eje Z
     glTranslatef(0.0,0.0,L);
     cara();
+
+    //hacemos una traslacion en el eje Y y rotamos en el eje X
     glTranslatef(0.0,L,0.0);
     glRotatef(-90.0,1.0,0.0,0.0);
     glRotatef(0.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
     cara();
+
+    //hacemos una traslacion en el eje X y rotamos en el eje Y
     glTranslatef(L,0.0,0.0);
     glRotatef(0.0,1.0,0.0,0.0);
     glRotatef(90.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
     cara();
 
-
-
-// ... escriba su código
 }
-//
+
+
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    //gluLookAt(1,1,1,0,0,0,0,1,0);
-// composicion de rotaciones
 
     ejes();
-//glPushMatrix();
+
     glRotatef(theta[0],1.0,0.0,0.0);
     glRotatef(theta[1],0.0,1.0,0.0);
     glRotatef(theta[2],0.0,0.0,1.0);
@@ -116,10 +124,12 @@ void display(void)
 
 
     glFlush();
-// intercambiamos los buffers, el que se muestra y el que esta oculto
+    // intercambiamos los buffers, el que se muestra y el que esta oculto
     glutSwapBuffers();
 }
-// esta funci?n controla el angulo de rotaci?n seg?n el eje de giro
+
+
+// esta funcion controla el angulo de rotacion segun el eje de giro
 void girar_objeto_geometrico ()
 {
     theta[eje] += delta;
@@ -127,17 +137,19 @@ void girar_objeto_geometrico ()
         theta[eje] -= 360.0;
     display();
 }
+
+//funcion para el teclado
 void teclado(unsigned char tecla,int x,int y)
 {
     switch(tecla)
     {
-    case 'a' :
+    case 'A' :
         eje = 0;
         break;
-    case 's' :
+    case 'S' :
         eje = 1;
         break;
-    case 'd' :
+    case 'D' :
         eje = 2;
         break;
     case '+' :
@@ -148,15 +160,16 @@ void teclado(unsigned char tecla,int x,int y)
         if (delta>0.2)
             delta-=0.1;
         break;
-    case 'f' :
+    case 'X' :
         exit(0) ;
         break;
     }
 }
 
+//dibujamos la circunferencia completa
 void circunferencia_punto_medio(float xc,float yc,int R)
 {
-// discretizacion valida en el II octante
+    // discretizacion valida para un octante
     R=R*(sqrt(2)-1)/2;
     int x=0;
     int y=R,d=1-R;
@@ -175,6 +188,8 @@ void circunferencia_punto_medio(float xc,float yc,int R)
             y=y-1;
         }
         x++;
+
+        //con estos puntos completamos la circunferencia
         glVertex2f(x+xc,y+yc);
         glVertex2f(x+xc,-y+yc);
         glVertex2f(-x+xc,y+yc);
@@ -188,10 +203,10 @@ void circunferencia_punto_medio(float xc,float yc,int R)
     glEnd();
 }
 
+//dibujamos el tercer cuadrante
 void semi_circunferencia_punto_medio_1(float xc,float yc,int R)
 {
-// discretizacion valida en el II octante
-
+// discretizacion valida para un octante octante
     int x=0;
     int y=R,d=1-R;
     glBegin(GL_POINTS);
@@ -208,6 +223,8 @@ void semi_circunferencia_punto_medio_1(float xc,float yc,int R)
             y=y-1;
         }
         x++;
+
+        //dibujamos el tercer cuadrante
         glVertex2f(-x+xc,-y+yc);
         glVertex2f(-y+xc,-x+yc);
 
@@ -215,9 +232,10 @@ void semi_circunferencia_punto_medio_1(float xc,float yc,int R)
     glEnd();
 }
 
+//dibujamos el primer cuadrante
 void semi_circunferencia_punto_medio_2(float xc,float yc,int R)
 {
-// discretizacion valida en el II octante
+// discretizacion valida para un octante
     int x=0;
     int y=R,d=1-R;
     glBegin(GL_POINTS);
@@ -234,15 +252,18 @@ void semi_circunferencia_punto_medio_2(float xc,float yc,int R)
             y=y-1;
         }
         x++;
+
+        //dibujamos el primer cuadrante
         glVertex2f(x+xc,y+yc);
         glVertex2f(y+xc,x+yc);
     }
     glEnd();
 }
 
+//dibujamos el cuarto cuadrante
 void semi_circunferencia_punto_medio_3(float xc,float yc,int R)
 {
-// discretizacion valida en el II octante
+// discretizacion valida para un octante
 
     int x=0;
     int y=R,d=1-R;
@@ -260,6 +281,8 @@ void semi_circunferencia_punto_medio_3(float xc,float yc,int R)
             y=y-1;
         }
         x++;
+
+        //dibujamos el cuarto cuadrante
         glVertex2f(x+xc,-y+yc);
         glVertex2f(y+xc,-x+yc);
 
@@ -267,9 +290,10 @@ void semi_circunferencia_punto_medio_3(float xc,float yc,int R)
     glEnd();
 }
 
+//dibujampsos el segundo cuadrante
 void semi_circunferencia_punto_medio_4(float xc,float yc,int R)
 {
-// discretizacion valida en el II octante
+// discretizacion valida para un octante
 
     int x=0;
     int y=R,d=1-R;
@@ -287,6 +311,8 @@ void semi_circunferencia_punto_medio_4(float xc,float yc,int R)
             y=y-1;
         }
         x++;
+
+        //dibujampsos el segundo cuadrante
         glVertex2f(-x+xc,y+yc);
         glVertex2f(-y+xc,x+yc);
 
@@ -305,8 +331,8 @@ void lienzo()
     semi_circunferencia_punto_medio_4(L,0,L/2);
 }
 
-// control de ventana (recuerde el volumen de visualizaci?n)
-// modifique dicho volumen seg?n su conveniencia
+// control de ventana (recuerde el volumen de visualizacion)
+// modifique dicho volumen segun su conveniencia
 void myReshape(int w, int h)
 {
     glViewport(0,0,w,h);
@@ -327,10 +353,10 @@ int main(int argc, char **argv)
     glutInitWindowSize(600,600);
     glutCreateWindow("mi objeto bajo rotaciones");
     glutReshapeFunc(myReshape);
-// invocamos a display() para dibujar nuestra escena
+    // invocamos a display() para dibujar nuestra escena
     glutDisplayFunc(display);
-// esta funcion llama a girar_objeto_geom?trico() mientras no haya evento //alguno
-//ocasionado por el usuario
+    // esta funcion llama a girar_objeto_geometrico() mientras no haya evento //alguno
+    //ocasionado por el usuario
     glutIdleFunc(girar_objeto_geometrico);
     glutKeyboardFunc(teclado);
     /*glutMouseFunc(mouse);*/

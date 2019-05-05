@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1557061838 source:d:\compu visual\prueba\main.cpp
+1557068906 source:d:\compu visual\prueba\main.cpp
 	<stdlib.h>
 	<conio.h>
 	<gl/glut.h>

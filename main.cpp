@@ -59,7 +59,7 @@ void cara()
 {
     glPointSize(2.0);
     glBegin(GL_POLYGON);
-    glColor3f(0.301,0.745,0.843);
+
     glVertex3f(0.0,0.0,0.0);
     glVertex3f(L,0.0,0.0);
     glVertex3f(L,L,0.0);
@@ -72,22 +72,26 @@ void cara()
 void cubo(void)
 {
     //mostramos la primera cara en
+    glColor3f(0.301,0.745,0.843);
     cara();
 
     //rotamos en el eje X
     glRotatef(90.0,1.0,0.0,0.0);
     glRotatef(0.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
+    glColor3f(0.843,0.301,0.843);
     cara();
 
     //rotamos en el eje Y
     glRotatef(0.0,1.0,0.0,0.0);
     glRotatef(90.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
+    glColor3f(0.843,0.435,0.301);
     cara();
 
     //hacemos una traslacion en el eje Z
     glTranslatef(0.0,0.0,L);
+    glColor3f(0.827,0.843,0.301);
     cara();
 
     //hacemos una traslacion en el eje Y y rotamos en el eje X
@@ -95,6 +99,7 @@ void cubo(void)
     glRotatef(-90.0,1.0,0.0,0.0);
     glRotatef(0.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
+    glColor3f(0.321,0.843,0.301);
     cara();
 
     //hacemos una traslacion en el eje X y rotamos en el eje Y
@@ -102,6 +107,7 @@ void cubo(void)
     glRotatef(0.0,1.0,0.0,0.0);
     glRotatef(90.0,0.0,1.0,0.0);
     glRotatef(0.0,0.0,0.0,1.0);
+    glColor3f(0.207,0.294,0.313);
     cara();
 
 }

@@ -19,7 +19,7 @@ void semi_circunferencia_punto_medio_1(float,float,int);
 void semi_circunferencia_punto_medio_2(float,float,int);
 void semi_circunferencia_punto_medio_3(float,float,int);
 void semi_circunferencia_punto_medio_4(float,float,int);
-void lienzo(void);
+void lienzo(float);
 
 // construya su poligono base
 
@@ -65,7 +65,7 @@ void cara()
     glVertex3f(L,L,0.0);
     glVertex3f(0.0,L,0.0);
     glEnd();
-    lienzo();
+    lienzo(L);
 
 }
 // construimos un cubo compuesto por todas las caras
@@ -154,6 +154,12 @@ void teclado(unsigned char tecla,int x,int y)
         break;
     case 'S' :
         eje = 1;
+        break;
+    case 'M' :
+        L++;
+        break;
+    case 'N' :
+        L--;
         break;
     case 'D' :
         eje = 2;
@@ -326,7 +332,7 @@ void semi_circunferencia_punto_medio_4(float xc,float yc,int R)
     glEnd();
 }
 
-void lienzo()
+void lienzo(float L)
 {
     circunferencia_punto_medio(L/2,L/2,L);
     semi_circunferencia_punto_medio_1(L,L,L/2);
